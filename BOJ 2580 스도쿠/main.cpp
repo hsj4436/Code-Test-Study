@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstring>
 
 int sudoku[9][9];
 bool row[10][10];
@@ -8,7 +7,7 @@ bool square[10][10];
 
 // 5, 4  3,3 ~ 5,5
 // (5 / 3) * 3
-// (4 / 3) * 3
+// (4 / 3)
 bool make_sudoku(int index) {
     int x = index / 9;
     int y = index % 9;
