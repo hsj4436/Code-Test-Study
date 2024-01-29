@@ -10,7 +10,7 @@ int outer = 0;
 
 void move(int x, int y, int direction) {
     // {x, y} == 문제 예시에서의 y
-    // direction 0 - up, 1 - left, 2 - down, 3 - right
+    // direction 0 - left, 1 - bottom, 2 - right, 3 - up
     int one = grid[x][y] * 0.01;
     int two = grid[x][y] * 0.02;
     int five = grid[x][y] * 0.05;
