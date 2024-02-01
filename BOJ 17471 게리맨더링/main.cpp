@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <cstring>
 
 #define INF 987654321
@@ -11,48 +12,54 @@ bool visited[11];
 bool selected[11];
 int min_diff = INF;
 
-bool dfs(int cur, int end, bool is_selected) {
-    if (cur == end) {
+bool bfs(std::vector<int> v, bool is_selected) {
+    std::memset(visited, false, sizeof(visited));
+    std::queue<int> q;
+    q.push(v[0]);
+    visited[v[0]] = true;
+    int cnt = 1;
+
+    while (!q.empty()) {
+        int cur = q.front();
+        q.pop();
+
+        for (int i = 1; i < N + 1; i++) {
+            if (graph[cur][i] && selected[i] == is_selected && !visited[i]) {
+                visited[i] = true;
+                q.push(i);
+                cnt++;
+            }
+        }
+    }
+
+    if (v.size() == cnt) {
         return true;
+    } else {
+        return false;
     }
-    for (int i = 1; i < N + 1; i++) {
-        if (!graph[cur][i]) {
-            continue;
-        }
-        if (visited[i]) {
-            continue;
-        }
-        if (selected[i] != is_selected) {
-            continue;
-        }
-        visited[i] = true;
-        if (dfs(i, end, is_selected)) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void combination(int index) {
     bool is_separated = true;
+    std::vector<int> A, B;
     for (int i = 1; i < N + 1; i++) {
-        for (int j = 1; j < N + 1; j++) {
-            if (i == j) {
-                continue;
-            }
-            if (selected[i] == selected[j]) {
-                std::memset(visited, false, sizeof(visited));
-                visited[i] = true;
-                if (!dfs(i, j, selected[i])) {
-                    is_separated = false;
-                    break;
-                }
-            }
-        }
-        if (!is_separated) {
-            break;
+        if (selected[i]) {
+            A.push_back(i);
+        } else {
+            B.push_back(i);
         }
     }
+
+    if (A.empty() || B.empty()) {
+        is_separated = false;
+    } else {
+        if (!bfs(A, true)) {
+            is_separated = false;
+        } else if (!bfs(B, false)) {
+            is_separated = false;
+        }
+    }
+
     if (is_separated) {
         int sum1 = 0, sum2 = 0;
         for (int i = 1; i < N + 1; i++) {
