@@ -71,7 +71,7 @@ int main() {
         }
     }
 
-    if (max > E) {
+    if (end > E) {
         std::cout << cnt << "\n";
     } else {
         std::cout << "0\n";
