@@ -13,27 +13,15 @@ int main() {
         if ('A' <= midterm[i] && midterm[i] <= 'Z') {
             answer.push_back(midterm[i]);
         } else if (midterm[i] == '*' || midterm[i] == '/') {
-            if (!operator_stk.empty()) {
-                if (operator_stk.top() == '*' || operator_stk.top() == '/') {
-                    answer.push_back(operator_stk.top());
-                    operator_stk.pop();
-                }
+            while (!operator_stk.empty() && (operator_stk.top() == '*' || operator_stk.top() == '/')) {
+                answer.push_back(operator_stk.top());
+                operator_stk.pop();
             }
             operator_stk.push(midterm[i]);
         } else if (midterm[i] == '+' || midterm[i] == '-') {
-            if (!operator_stk.empty()) {
-                if (operator_stk.top() == '*' || operator_stk.top() == '/') {
-                    while (!operator_stk.empty()) {
-                        if (operator_stk.top() == '(') {
-                            break;
-                        }
-                        answer.push_back(operator_stk.top());
-                        operator_stk.pop();
-                    }
-                } else if (operator_stk.top() == '+' || operator_stk.top() == '-') {
-                    answer.push_back(operator_stk.top());
-                    operator_stk.pop();
-                }
+            while (!operator_stk.empty() && operator_stk.top() != '(') {
+                answer.push_back(operator_stk.top());
+                operator_stk.pop();
             }
             operator_stk.push(midterm[i]);
         } else if (midterm[i] == '(') {
